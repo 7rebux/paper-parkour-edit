@@ -1,0 +1,20 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Nils Osswald <contact@nilsosswald.de>
+Date: Sat, 22 Jun 2024 12:12:42 +0200
+Subject: [PATCH] Call PlayerMoveEvent on every tick
+
+
+diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index fe2ef36ab5dc4b933abf24dbfd0e811c53239cf0..10a2b3ab57a764974600f62061dc2fabd017c40d 100644
+--- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -631,7 +631,8 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+                 double delta = Math.pow(this.lastPosX - to.getX(), 2) + Math.pow(this.lastPosY - to.getY(), 2) + Math.pow(this.lastPosZ - to.getZ(), 2);
+                 float deltaAngle = Math.abs(this.lastYaw - to.getYaw()) + Math.abs(this.lastPitch - to.getPitch());
+ 
+-                if ((delta > 1f / 256 || deltaAngle > 10f) && !this.player.isImmobile()) {
++                // if ((delta > 1f / 256 || deltaAngle > 10f) && !this.player.isImmobile()) {
++                if (!this.player.isImmobile()) {
+                     this.lastPosX = to.getX();
+                     this.lastPosY = to.getY();
+                     this.lastPosZ = to.getZ();
